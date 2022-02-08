@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ingXvYJTT2DZ7bTtL27bKZIvIVTQQP4zG6azUpyKsIXBMq6PYpcagaqa20+GLdRkRieR5tGDLW89cewYjyUMPA==",
+  "dgSpecHash": "0PTWGyRHAT5zoajL1d4QQOKCk9P/b/DyTVKnmJIV6m0tnyvxkfEtnaoa5fn0YWaxGAJmNzj+seHCwrPD3wKFgg==",
   "success": true,
   "projectFilePath": "D:\\project\\dotnet\\BookStore-API\\BookStore-API\\BookStore-API.csproj",
   "expectedPackageFiles": [
@@ -46,6 +46,8 @@
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\nlog\\4.7.11\\nlog.4.7.11.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\nlog.extensions.logging\\1.7.4\\nlog.extensions.logging.1.7.4.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

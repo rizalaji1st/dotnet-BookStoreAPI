@@ -79,3 +79,6 @@ D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\Swashbuckl
 D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\BookStore-API.xml
+D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\nlog.config
+D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\NLog.dll
+D:\project\dotnet\BookStore-API\BookStore-API\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
