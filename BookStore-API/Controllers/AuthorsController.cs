@@ -87,10 +87,10 @@ namespace BookStore_API.Controllers
         /// <summary>
         /// Create an author
         /// </summary>
-        /// <param name="authorDTO"></param>
+        /// <param name="author"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] AuthorCreateDTO authorDTO)
@@ -125,7 +125,50 @@ namespace BookStore_API.Controllers
             }
         }
 
-        private ObjectResult InternalError(string message)
+        /// <summary>
+        /// Update an author
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id, [FromBody] AuthorUpdateDTO authorDTO)
+        {
+            try
+            {
+                _logger.LogInfo($"Author updated attempted id:{id}");
+                if (id < 1  || authorDTO == null || id != authorDTO.Id)
+                {
+                    _logger.LogWarn("Empty request or bad data was submitted");
+                    return BadRequest();
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarn("Author data is incompleted");
+                    return BadRequest(ModelState);
+                }
+
+                var author = _mapper.Map<Author>(authorDTO);
+                var isSuccess = await _authorRepository.Update(author);
+                if (!isSuccess)
+                {
+                    return InternalError("");
+                }
+
+                _logger.LogInfo("Author data is updated");
+                return NoContent();
+            }
+            catch(Exception e)
+            {
+                return InternalError($"{e.Message} - {e.InnerException}");
+            }
+            
+        }
+
+            private ObjectResult InternalError(string message)
         {
             _logger.LogError(message);
             return StatusCode(500, "Something went wrong. Please Contact the administrator");
