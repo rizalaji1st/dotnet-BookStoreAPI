@@ -139,6 +139,11 @@ namespace BookStore_API.Controllers
             try
             {
                 _logger.LogInfo($"Author updated attempted id:{id}");
+                if (!await _authorRepository.isExist(id))
+                {
+                    _logger.LogWarn($"Author with id:{id} Not found");
+                    return NotFound();
+                }
                 if (id < 1  || authorDTO == null || id != authorDTO.Id)
                 {
                     _logger.LogWarn("Empty request or bad data was submitted");
@@ -168,7 +173,43 @@ namespace BookStore_API.Controllers
             
         }
 
-            private ObjectResult InternalError(string message)
+        /// <summary>
+        /// Delete an author by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                _logger.LogInfo($"Attempted Get Authors With Id{id}");
+                if(id < 1)
+                {
+                    return BadRequest();
+                }
+                var author = await _authorRepository.FindById(id);
+                if (author == null)
+                {
+                    _logger.LogWarn($"Author with id:{id} Not found");
+                    return NotFound();
+                }
+                var isSuccess = await _authorRepository.Delete(author);
+                if (!isSuccess)
+                {
+                    return InternalError("Failed to delete author");
+                }
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return InternalError($"{e.Message} - {e.InnerException}");
+            }
+        }
+        private ObjectResult InternalError(string message)
         {
             _logger.LogError(message);
             return StatusCode(500, "Something went wrong. Please Contact the administrator");
