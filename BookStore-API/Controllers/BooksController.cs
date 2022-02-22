@@ -119,6 +119,12 @@ namespace BookStore_API.Controllers
                 return InternalError($"{e.Message} - {e.InnerException}");
             }
         }
+        /// <summary>
+        /// Update a book
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="bookDTO"></param>
+        /// <returns>no content</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -161,6 +167,44 @@ namespace BookStore_API.Controllers
                 return InternalError($"{e.Message} - {e.InnerException}");
             }
 
+        }
+        /// <summary>
+        /// Delete a book
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>no content</returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var location = GetControllerActionNames();
+            try
+            {
+                _logger.LogInfo($"{location}: Delete Attempted id : {id}");
+                if (id < 1)
+                {
+                    _logger.LogWarn($"{location}: Empty request or bad data was submitted");
+                    return BadRequest();
+                }
+                var book = await _bookRepository.FindById(id);
+                if (book == null)
+                {
+                    _logger.LogWarn($"{location}: book with id : {id} not found");
+                    return NotFound();
+                }
+                var isSuccess = await _bookRepository.Delete(book);
+                if (!isSuccess)
+                {
+                    return InternalError($"{location}: Delete failed with id : {id}");
+                }
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return InternalError($"{e.Message} - {e.InnerException}");
+            }
         }
         private string GetControllerActionNames()
         {
