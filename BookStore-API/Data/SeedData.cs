@@ -15,7 +15,7 @@ namespace BookStore_API.Data
         }
         private async static Task SeedUsers(UserManager<IdentityUser> userManager)
         {
-            if (await userManager.FindByEmailAsync("admin@bookstore.com") == null) 
+            if ((await userManager.FindByEmailAsync("admin@bookstore.com")) == null) 
             {
                 var user = new IdentityUser
                 {
@@ -23,7 +23,7 @@ namespace BookStore_API.Data
                     Email = "admin@bookstore.com"
                 };
 
-                var result = await userManager.CreateAsync(user, "password");
+                var result = await userManager.CreateAsync(user, "P@ssw0rd");
 
                 if (result.Succeeded)
                 {
@@ -38,7 +38,7 @@ namespace BookStore_API.Data
                     Email = "customer1@gmail.com"
                 };
 
-                var result = await userManager.CreateAsync(user, "password");
+                var result = await userManager.CreateAsync(user, "P@ssw0rd");
 
                 if (result.Succeeded)
                 {
@@ -53,7 +53,7 @@ namespace BookStore_API.Data
                     Email = "customer2@gmail.com"
                 };
 
-                var result = await userManager.CreateAsync(user, "password");
+                var result = await userManager.CreateAsync(user, "P@ssw0rd");
 
                 if (result.Succeeded)
                 {

@@ -9,7 +9,7 @@ namespace BookStore_API.DTOs
     public class BookDTO
     {
         public int Id { get; set; }
-        public string title { get; set; }
+        public string Title { get; set; }
         public int? Year { get; set; }
         public string Isbn { get; set; }
         public string Summary { get; set; }
@@ -22,7 +22,7 @@ namespace BookStore_API.DTOs
     public class BookCreateDTO
     {
         [Required]
-        public string title { get; set; }
+        public string Title { get; set; }
         public int? Year { get; set; }
         [Required]
         public string Isbn { get; set; }
@@ -38,7 +38,7 @@ namespace BookStore_API.DTOs
     {
         public int Id { get; set; }
         [Required]
-        public string title { get; set; }
+        public string Title { get; set; }
         public int? Year { get; set; }
         [StringLength(500)]
         public string Summary { get; set; }
