@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookStore_API.Contracts;
+using BookStore_API.Data;
 using BookStore_API.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace BookStore_API.Controllers
         /// <summary>
         /// Get all books
         /// </summary>
-        /// <returns>A list of books</returns>
+        /// <returns>A list of books    </returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -76,6 +77,90 @@ namespace BookStore_API.Controllers
             {
                 return InternalError($"{e.Message} - {e.InnerException}");
             }
+        }
+
+        /// <summary>
+        /// Create a new book
+        /// </summary>
+        /// <param name="bookDTO"></param>
+        /// <returns>Book object</returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Create([FromBody] BookCreateDTO bookDTO)
+        {
+            var location = GetControllerActionNames();
+            try
+            {
+                _logger.LogInfo($"{location}: Create Attempted");
+                if (bookDTO == null)
+                {
+                    _logger.LogWarn($"{location}: Empty request was submitted");
+                    return BadRequest(ModelState);
+                }
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarn($"{location}: Data was incompleted");
+                    return BadRequest(ModelState);
+                }
+                var book = _mapper.Map<Book>(bookDTO);
+                var isSuccess = await _bookRepository.Create(book);
+                if (!isSuccess)
+                {
+                    return InternalError($"{location} : Creation failed");
+                }
+                _logger.LogInfo($"{location}: Successfully create book");
+                _logger.LogInfo($"{location}: {book}");
+                return Created("Create", new { book });
+            }
+            catch (Exception e)
+            {
+                return InternalError($"{e.Message} - {e.InnerException}");
+            }
+        }
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id, [FromBody] BookUpdateDTO bookDTO)
+        {
+            var location = GetControllerActionNames();
+            try
+            {
+                _logger.LogInfo($"{location}: Update Attempted id : {id}");
+                if (!await _bookRepository.isExist(id))
+                {
+                    _logger.LogWarn($"{location}: Book with id:{id} Not found");
+                    return NotFound();
+                }
+                if (id < 1 || bookDTO == null || id != bookDTO.Id)
+                {
+                    _logger.LogWarn($"{location}: Empty request or bad data was submitted");
+                    return BadRequest();
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarn($"{location}: Book data is incompleted");
+                    return BadRequest(ModelState);
+                }
+
+                var book = _mapper.Map<Book>(bookDTO);
+                var isSuccess = await _bookRepository.Update(book);
+                if (!isSuccess)
+                {
+                    return InternalError($"{location}: Update failed with id : {id}");
+                }
+
+                _logger.LogInfo($"{location}: book data is updated id: {id}");
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return InternalError($"{e.Message} - {e.InnerException}");
+            }
+
         }
         private string GetControllerActionNames()
         {

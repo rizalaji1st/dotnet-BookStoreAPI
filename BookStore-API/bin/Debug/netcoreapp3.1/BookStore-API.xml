@@ -47,7 +47,21 @@
             <summary>
             Get all books
             </summary>
-            <returns></returns>
+            <returns>A list of books    </returns>
+        </member>
+        <member name="M:BookStore_API.Controllers.BooksController.GetBook(System.Int32)">
+            <summary>
+            Get a book by id
+            </summary>
+            <param name="id"></param>
+            <returns>a book record</returns>
+        </member>
+        <member name="M:BookStore_API.Controllers.BooksController.Create(BookStore_API.DTOs.BookCreateDTO)">
+            <summary>
+            Create a new book
+            </summary>
+            <param name="bookDTO"></param>
+            <returns>Book object</returns>
         </member>
         <member name="T:BookStore_API.Controllers.HomeController">
             <summary>
